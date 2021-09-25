@@ -2,11 +2,9 @@ import './App.css';
 import { Link, Route, Switch} from 'react-router-dom'
 import Chat from './components/Chat'
 import User from './components/User'
+import Home from './components/Home'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Home = () => (
-  <div><h3>Home</h3></div>
-)
 
 
 function App() {
