@@ -1,0 +1,13 @@
+.frame{
+    min-height: 20rem;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 1rem 1rem 1rem 0rem;
+}
+.friend{
+    height: 3rem;
+}
+.hover:hover{
+    cursor: pointer;
+}
