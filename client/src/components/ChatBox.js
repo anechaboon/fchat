@@ -2,19 +2,22 @@ import React, { useState, useEffect } from "react";
 import firebase from '../utils/firebase'
 import ChatMessage from './ChatMessage'
  
-function ChatBox({usersID}) {
+function ChatBox(usersID) {
     
     console.log('usersID',usersID);
 
     const user_id = 1;
     const with_user_id = 2;
     const users_id = `${user_id}-${with_user_id}`;
+
+    const [bothID,setBothID] = useState('');
     const [chatList,setChatList] = useState();
+    
     
     useEffect(() => {
 
         const chatRef = firebase.database().ref('chat');
-        chatRef.orderByChild("users_id").equalTo(users_id).on('value', (snapshot) => {
+        chatRef.orderByChild("both_id").equalTo(users_id).on('value', (snapshot) => {
             const chats = snapshot.val();
             console.log('snapshot chatbox',chats);
             const chatList = [];
@@ -32,7 +35,8 @@ function ChatBox({usersID}) {
             const chatRef = firebase.database().ref('chat')
             const chat = {
                 message,
-                'users_id': users_id,
+                'both_id': users_id,
+                'user_id':user_id
             }
             chatRef.push(chat);
             document.getElementById("chat-input").value = '';

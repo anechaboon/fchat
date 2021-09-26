@@ -16,22 +16,26 @@ function Chat() {
     }, [])
 
     //select friend chat
-    const [withUserID,setWithUserID] = useState('');
+    const [withUserID,setWithUserID] = useState(0);
     const [withName,setWithName] = useState('');
-    const [usersID,setUsersID] = useState();
+    // const [usersID,setUsersID] = useState();
+    const [bothID,setBothID] = useState('');
+
     const Chat = (e) => {
         setWithUserID(e.target.getAttribute('data-id'));
         setWithName(e.target.getAttribute('data-name'));
-        
-        console.log('_with_user_id',usersID)
 
         document.getElementById("friendName").innerHTML = `<p>${withName} ${withUserID}</p>`;
-        setUsersID({
-            'user_id':userID,
-            'with_user_id':withUserID
-        });
+
+        if(userID < withUserID){
+            setBothID(`${userID}-${withUserID}`);
+        }else{
+            setBothID(`${withUserID}-${userID}`);
+        }
+        console.log('bothID',bothID)
 
     }
+    
 
 
     return(
@@ -52,7 +56,7 @@ function Chat() {
             </div>
             <div className="col-6">
                 <div id="friendName" className="row center"><p>&nbsp;</p></div>
-                < ChatBox userID={usersID} />
+                < ChatBox userID={bothID} />
                 
             </div>
         </div>
