@@ -4,30 +4,31 @@ import ChatMessage from './ChatMessage'
  
 function ChatBox(both_ID) {
     both_ID = both_ID.userID;
+
+
     const userID = both_ID.userID; //my id
     const bothID = both_ID.bothID; //both id
-    console.log('bothID',bothID);
+    console.log('snapshot bothID2',bothID);
 
     const [chatList,setChatList] = useState();
     
     
     useEffect(() => {
-
-            const chatRef = firebase.database().ref('chat');
-            chatRef.orderByChild("both_id").equalTo(bothID).on('value', (snapshot) => {
-                const chats = snapshot.val();
-                const chatList = [];
-                for (let id in chats) {
-                    chatList.push({ id, ...chats[id] });
-                }
-                setChatList(chatList);
-            })
-            console.log('snapshot chatList',chatList);
-
-
-        
-
+        getChatList();
     }, [])
+
+    const getChatList = () => {
+        const chatRef = firebase.database().ref('chat');
+        chatRef.orderByChild("both_id").equalTo(bothID).on('value', (snapshot) => {
+            const chats = snapshot.val();
+            const chatList = [];
+            for (let id in chats) {
+                chatList.push({ id, ...chats[id] });
+            }
+            setChatList(chatList);
+        })
+        console.log('snapshot chatList',chatList);
+    }
 
     const [message,setMessage] = useState('');
     const SendMessage = (e) => {

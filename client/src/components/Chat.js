@@ -3,10 +3,11 @@ import firebase from '../utils/firebase';
 import '../css/chat.css'
 import Axios from 'axios';
 import ChatBox from './ChatBox'
+import ChatMessage from './ChatMessage'
 
 function Chat() {
 
-    const userID = 1;
+    const userID = window.sessionStorage.getItem("userID");
     const [friendList,setFriendList] = useState();
     // get friendList
     useEffect(() => {
@@ -17,31 +18,59 @@ function Chat() {
 
     //select friend chat
     const [bothID,setBothID] = useState('');
+
+
+    const [chatList,setChatList] = useState();
+
+
     const Chat = (e) => {
         
         let id = e.target.getAttribute('data-id');
         let name = e.target.getAttribute('data-name');
+        let bothID = '';
         document.getElementById("friendName").innerHTML = `<p>${name} ${id}</p>`;
         if(userID < id){
-            setBothID(
-                {
-                    bothID:`${userID}-${id}`,
-                    userID:userID
-                }
-            );
+            bothID = `${userID}-${id}`;
         }else{
-            setBothID(
-                {
-                    bothID:`${id}-${userID}}`,
-                    userID:userID
-                }
-            );
+            bothID = `${id}-${userID}`;
         }
 
+        setBothID(bothID);
+        getChatList(bothID);
+    }
+
+    
+
+    const getChatList = (bothID) => {
         console.log('snapshot bothID',bothID);
 
+        const chatRef = firebase.database().ref('chat');
+        chatRef.orderByChild("both_id").equalTo(bothID).on('value', (snapshot) => {
+            const chats = snapshot.val();
+            const chatList = [];
+            for (let id in chats) {
+                chatList.push({ id, ...chats[id] });
+            }
+            setChatList(chatList);
+        })
+        console.log('snapshot chatList',chatList);
     }
-    
+
+    const [message,setMessage] = useState('');
+    const SendMessage = (e) => {
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            const chatRef = firebase.database().ref('chat')
+            const chat = {
+                message,
+                'both_id': bothID,
+                'user_id':userID
+            }
+            chatRef.push(chat);
+            document.getElementById("chat-input").value = '';
+        }
+    }
+
+
 
     return(
         <div className="App container">
@@ -62,9 +91,17 @@ function Chat() {
             <div className="col-6">
                 <div id="friendName" className="row center"><p>&nbsp;</p></div>
                 
-                {bothID 
-                    ? < ChatBox userID={bothID} />  
-                    : ''}
+                <div className="frame col-md-12">
+                    <div id="chat-box">
+                        {chatList 
+                            ? chatList.map((chat, index) => <ChatMessage chat={chat} key={index} /> )
+                            : ''}
+                        
+                    </div>
+                    <div className="bottom-div">
+                        <input type="text" id="chat-input" className="chat form-control" onKeyUp={SendMessage} onChange={(event)=>{setMessage(event.target.value)}}/>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -6,6 +6,7 @@ import Axios from 'axios';
 function Home(){
     
     const userID = 1;
+    window.sessionStorage.setItem("userID", userID);
     const [userList,setUserList] = useState();
 
     useEffect(() => {

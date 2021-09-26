@@ -4,7 +4,7 @@ import Axios from 'axios';
 
 function UserList({user}) {
 
-    const user_id = '1';
+    const user_id = window.sessionStorage.getItem("userID");
     const [withUserID,setWithUserID] = useState('');
     const addFriend = (e) => {
 

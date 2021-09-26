@@ -17,6 +17,9 @@
 .t-right{
     text-align: right;
 }
+.t-left{
+    text-align: left;
+}
 .bottom-div{
     position: absolute;
     bottom: 10px;
