@@ -16,27 +16,32 @@ function Chat() {
     }, [])
 
     //select friend chat
-    const [withUserID,setWithUserID] = useState(0);
-    const [withName,setWithName] = useState('');
-    // const [usersID,setUsersID] = useState();
     const [bothID,setBothID] = useState('');
-
     const Chat = (e) => {
-        setWithUserID(e.target.getAttribute('data-id'));
-        setWithName(e.target.getAttribute('data-name'));
-
-        document.getElementById("friendName").innerHTML = `<p>${withName} ${withUserID}</p>`;
-
-        if(userID < withUserID){
-            setBothID(`${userID}-${withUserID}`);
+        
+        let id = e.target.getAttribute('data-id');
+        let name = e.target.getAttribute('data-name');
+        document.getElementById("friendName").innerHTML = `<p>${name} ${id}</p>`;
+        if(userID < id){
+            setBothID(
+                {
+                    bothID:`${userID}-${id}`,
+                    userID:userID
+                }
+            );
         }else{
-            setBothID(`${withUserID}-${userID}`);
+            setBothID(
+                {
+                    bothID:`${id}-${userID}}`,
+                    userID:userID
+                }
+            );
         }
-        console.log('bothID',bothID)
+
+        console.log('snapshot bothID',bothID);
 
     }
     
-
 
     return(
         <div className="App container">
@@ -56,8 +61,10 @@ function Chat() {
             </div>
             <div className="col-6">
                 <div id="friendName" className="row center"><p>&nbsp;</p></div>
-                < ChatBox userID={bothID} />
                 
+                {bothID 
+                    ? < ChatBox userID={bothID} />  
+                    : ''}
             </div>
         </div>
     </div>
