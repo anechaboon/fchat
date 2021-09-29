@@ -3,6 +3,7 @@ import { Link, Route, Switch} from 'react-router-dom'
 import Chat from './components/Chat'
 import User from './components/User'
 import Home from './components/Home'
+import Login from './components/Login'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -25,13 +26,14 @@ function App() {
       </nav>
 
       <Switch>
+        <Route exact path="/login/:id"><Login /></Route>
         <Route exact path="/"><Home /></Route>
         <Route path="/user"><User /></Route>
         <Route path="/chat"><Chat /></Route>
         
-        <Route path="/:id">
+        {/* <Route path="">
           404 Not Found
-        </Route>
+        </Route> */}
       </Switch>
     </div>
     

@@ -44,3 +44,7 @@
     width: fit-content;
     float: right;
 }
+#chat-box{
+    overflow-x: auto;
+    height: 16rem;
+}

@@ -47,7 +47,7 @@ function ChatBox(both_ID) {
 
     return (
         
-        <div className="frame col-md-12">
+        <div className="frame col-md-12" >
             <div id="chat-box">
                 {chatList 
                     ? chatList.map((chat, index) => <ChatMessage chat={chat} key={index} /> )

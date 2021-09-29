@@ -33,9 +33,10 @@ app.post('/create',(req, res) => {
 //get friend list
 app.get('/friend/:id',(req, res) => {
     const id = req.params.id;
-    const sqlGetFriends = "SELECT users.id,users.name FROM users JOIN relation on users.id = relation.with_user_id WHERE users.id IN (SELECT with_user_id FROM relation WHERE user_id = ?)";
+    const sqlGetFriends = "SELECT users.id, users.name  FROM users  JOIN relation on users.id = relation.with_user_id OR users.id = relation.user_id WHERE (users.id IN (SELECT with_user_id FROM relation WHERE user_id = ?)) OR (users.id IN (SELECT user_id FROM relation WHERE with_user_id = ?)) GROUP BY users.id";
+
     const sqlGetUsers = `SELECT users.id,users.name FROM users WHERE id <> ? `;
-    db.query(sqlGetFriends, id, (err, result) => {
+    db.query(sqlGetFriends, [id, id], (err, result) => {
         if (err) {
             console.log(err);
         }else{
