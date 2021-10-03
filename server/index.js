@@ -117,6 +117,7 @@ app.use((req, res, next) => {
     next(createError(404))
 })
 
+// err handle
 app.use(function (req, res, next) {
     console.error(err.message);
     if (!err.statusCode) err.statusCode = 500;

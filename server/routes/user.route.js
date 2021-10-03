@@ -30,7 +30,7 @@ router.route('/').get((req, res) => {
 })
 
 // Get Single User
-router.route('/edit-user/:id').get((req, res) => {
+router.route('/user-edit/:id').get((req, res) => {
     userSchema.findById( req.params.id, (err, data)=>{
         if (err) {
             return next(err);
@@ -42,7 +42,7 @@ router.route('/edit-user/:id').get((req, res) => {
 })
 
 // update user
-router.route('/update-user/:id').put((req, res, next) => {
+router.route('/user-update/:id').put((req, res, next) => {
     userSchema.findByIdAndUpdate( req.params.id,  {
         $set: req.body
     }, (err, data) => {
@@ -57,7 +57,7 @@ router.route('/update-user/:id').put((req, res, next) => {
 })
 
 // delete user
-router.route('/delete-user/:id').delete((req, res, next) => {
+router.route('/user-delete/:id').delete((req, res, next) => {
     userSchema.findByIdAndRemove( req.params.id, (err, data) => {
         if (err) {
             return next(err);

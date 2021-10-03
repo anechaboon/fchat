@@ -8,8 +8,8 @@ let userSchema = new Schema({
     email:{
         type: String
     },
-    rollno:{
-        type: Number
+    roll:{
+        type: String
     },
 },{
     collection:"users"

@@ -1,4 +1,11 @@
 import './App.css';
+
+import Nav from 'react-bootstrap/Nav'
+import NavBar from 'react-bootstrap/NavBar'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+
 import { Link, Route, Switch} from 'react-router-dom'
 import Chat from './components/Chat'
 import User from './components/User'
@@ -6,37 +13,53 @@ import Home from './components/Home'
 import Login from './components/Login'
 import 'bootstrap/dist/css/bootstrap.css';
 
+import UserCreate from './components/user-create.component'
+import UserList from './components/user-list.component'
+import UserEdit from './components/user-edit.component'
+
 
 function App() {
   return (
-    <div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/user">User</Link>
-          </li>
-          <li>
-            <Link to="/chat">Chat</Link>
-          </li>
-        </ul>
-      </nav>
+    <Route>
+      <div className="App">
+      
+        <NavBar bg="dark" variant="dark">
+            <Container>
+              <NavBar.Brand>
+                <Link to={"/user-create"} className="nav-link">
+                  React MERN Stack CRUD
+                </Link>
+              </NavBar.Brand>
 
-      <Switch>
-        <Route exact path="/login/:id"><Login /></Route>
-        <Route exact path="/"><Home /></Route>
-        <Route path="/user"><User /></Route>
-        <Route path="/chat"><Chat /></Route>
-        
-        {/* <Route path="">
-          404 Not Found
-        </Route> */}
-      </Switch>
-    </div>
-    
-    
+              <Nav className="justify-content-end">
+                <Nav>
+                  <Link to={"/user-create"} className="nav-link">Create User</Link>
+                </Nav>
+                <Nav>
+                  <Link to={"/user-list"} className="nav-link">List User</Link>
+                </Nav>
+
+              </Nav>
+            </Container>
+        </NavBar>
+
+        <Container>
+          <Row>
+            <Col>
+              <div className="wrapper">
+                <Switch>
+                  <Route exact path="/" component={UserCreate}></Route>
+                  <Route path="/user-create" component={UserCreate}></Route>
+                  <Route path="/user-list" component={UserList}></Route>
+                  <Route path="/user-edit/:id" component={UserEdit}></Route>
+                </Switch>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+
+      </div>
+    </Route>
   );
 }
 
