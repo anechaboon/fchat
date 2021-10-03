@@ -9,6 +9,7 @@ const express = require('express'),
 
 //Express route
 const userRoute = require('../server/routes/user.route');
+const RelationRoute = require('../server/routes/relation.route');
 
 // connect mongodb 
 mongoose.Promise = global.Promise;
@@ -30,13 +31,12 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cors());
 app.use('/users', userRoute);
+app.use('/relations', RelationRoute);
 
 // port
 
 
 const mysql = require('mysql');
-
-
 
 app.use(express.json());
 

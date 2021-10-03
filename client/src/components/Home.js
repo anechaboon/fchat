@@ -9,7 +9,7 @@ function Home(){
     const [userList,setUserList] = useState();
 
     useEffect(() => {
-        Axios.get(`http://localhost:3001/user`).then((response) => {
+        Axios.get(`http://localhost:4000/users`).then((response) => {
             setUserList(response.data);
         });
     }, [])
@@ -18,7 +18,7 @@ function Home(){
         <div className="form-group m-lg-5">
             <div className="col-3">
                 {userList 
-                    ? userList.map((user, index) => (user.id != user_id) ? <UserList user={user} key={index} />  : '')
+                    ? userList.map((user, index) => <UserList user={user} key={index} />  )
                     : ''}
             </div>
         </div>

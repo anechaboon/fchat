@@ -26,7 +26,7 @@ function App() {
         <NavBar bg="dark" variant="dark">
             <Container>
               <NavBar.Brand>
-                <Link to={"/user-create"} className="nav-link">
+                <Link to={"/"} className="nav-link">
                   React MERN Stack CRUD
                 </Link>
               </NavBar.Brand>
@@ -48,7 +48,7 @@ function App() {
             <Col>
               <div className="wrapper">
                 <Switch>
-                  <Route exact path="/" component={UserCreate}></Route>
+                  <Route exact path="/" component={Home}></Route>
                   <Route path="/user-create" component={UserCreate}></Route>
                   <Route path="/user-list" component={UserList}></Route>
                   <Route path="/user-edit/:id" component={UserEdit}></Route>
