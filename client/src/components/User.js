@@ -9,7 +9,7 @@ function User() {
 
 
     const createUser = () => {
-        Axios.post('http://localhost:3001/create', {
+        Axios.post('http://localhost:3001/create-user', {
             name: name,
             email: email
         })

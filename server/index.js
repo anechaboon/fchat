@@ -1,9 +1,43 @@
-const express = require('express');
-const app = express();
-const mysql = require('mysql');
-const cors = require('cors');
+const express = require('express'),
+        mongoose = require('mongoose'),
+        cors = require('cors'),
+        bodyParser = require('body-parser'),
+        dbConfig = require('./database/db');
 
+
+
+
+//Express route
+const userRoute = require('../server/routes/user.route');
+
+// connect mongodb 
+mongoose.Promise = global.Promise;
+mongoose.connect(dbConfig.db,{
+    useNewUrlParser: true
+}).then(() => {
+    console.log('connected scc')
+},
+    err => {
+        console.log('error connecting' + err)
+    }
+)
+
+const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(cors());
+app.use('/users', userRoute);
+
+// port
+
+
+const mysql = require('mysql');
+
+
+
 app.use(express.json());
 
 const db = mysql.createConnection({
@@ -73,7 +107,18 @@ app.post('/addFriend',(req, res) => {
         }
     );
 });
-
-app.listen('3001', () => {
-    console.log('Server is running on port 3001');
+const port = process.env.PORT || 4000;
+const server = app.listen(port, () => {
+    console.log('Server is running on port '+ port);
 });
+
+// 404 error
+app.use((req, res, next) => {
+    next(createError(404))
+})
+
+app.use(function (req, res, next) {
+    console.error(err.message);
+    if (!err.statusCode) err.statusCode = 500;
+    res.status(err.statusCode).send(err.message);
+})

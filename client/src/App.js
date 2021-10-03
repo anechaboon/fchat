@@ -4,8 +4,7 @@ import Chat from './components/Chat'
 import User from './components/User'
 import Home from './components/Home'
 import Login from './components/Login'
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import 'bootstrap/dist/css/bootstrap.css';
 
 
 function App() {
