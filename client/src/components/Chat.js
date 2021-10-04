@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import firebase from '../utils/firebase';
 import '../css/chat.css'
-import Axios from 'axios';
+import axios from 'axios';
 import ChatBox from './ChatBox'
 import ChatMessage from './ChatMessage'
 
@@ -9,21 +9,36 @@ function Chat() {
 
     const userID = window.sessionStorage.getItem("userID");
     const [friendList,setFriendList] = useState();
+    const [friendWithList,setFriendWithList] = useState();
     // get friendList
-    useEffect(() => {
-        Axios.get(`http://localhost:3001/friend/${userID}`).then((response) => {
-            setFriendList(response.data);
-        });
-    }, [])
 
+
+    const GetFriends = async () => {
+        useEffect( async () => {
+            await axios.get('http://localhost:4000/relations/friends/'+ userID).then((res) =>{
+                setFriendList(res.data);
+            }).catch((error) => {
+                console.log('log req err',error)
+            });
+    
+        }, [])
+
+        useEffect( async () => {
+            await axios.get('http://localhost:4000/relations/friendswith/'+ userID).then((res) =>{
+                setFriendWithList(res.data);
+            }).catch((error) => {
+                console.log('log req err',error)
+            });
+    
+        }, [])
+    }
+    GetFriends()
     //select friend chat
     const [bothID,setBothID] = useState('');
-
-
     const [chatList,setChatList] = useState();
 
 
-    const Chat = (e) => {
+    const Chat = async (e) => {
         
         let id = e.target.getAttribute('data-id');
         let name = e.target.getAttribute('data-name');
@@ -35,14 +50,14 @@ function Chat() {
             bothID = `${id}-${userID}`;
         }
 
-        setBothID(bothID);
+        await setBothID(bothID);
+        console.log('bothID',bothID)
         getChatList(bothID);
+
+
     }
 
-    
-
     const getChatList = (bothID) => {
-        console.log('snapshot bothID',bothID);
 
         const chatRef = firebase.database().ref('chat');
         chatRef.orderByChild("both_id").equalTo(bothID).on('value', (snapshot) => {
@@ -76,16 +91,23 @@ function Chat() {
         <div className="App container">
         <h1> Chat </h1>
         <div className="row col-md-12">
-            <div className="col-3">
-                <div className="row center">Friends</div>
+        <div className="col-3">
+            <div className="row center">Friends</div>
                 <div className="frame col-md-12">
-                    {friendList 
+                    {friendList && (friendList != '') 
                         ? friendList.map((user, index) => (user.id != userID) ? 
-                            <div className="card friend mb-2 hover text-center" data-id={user.id} data-name={user.name} onClick={Chat}>
+                            <div className="card friend mb-2 hover text-center" data-id={user.with_user_id} data-name={user.name} onClick={Chat}>
                                 {user.name}
                             </div>  
                             : '')
-                        : ''}
+                        : friendWithList && (friendWithList != '') 
+                            ? friendWithList.map((user, index) => (user.id != userID) ? 
+                                <div className="card friend mb-2 hover text-center" data-id={user.user_id} data-name={user.name} onClick={Chat}>
+                                    {user.name}
+                                </div>  
+                                : '')
+                            : ''}
+
                 </div>
             </div>
             <div className="col-6">

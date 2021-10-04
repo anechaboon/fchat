@@ -38,7 +38,9 @@ function App() {
                 <Nav>
                   <Link to={"/user-list"} className="nav-link">List User</Link>
                 </Nav>
-
+                <Nav>
+                  <Link to={"/chat"} className="nav-link">Chat</Link>
+                </Nav>
               </Nav>
             </Container>
         </NavBar>
@@ -52,6 +54,8 @@ function App() {
                   <Route path="/user-create" component={UserCreate}></Route>
                   <Route path="/user-list" component={UserList}></Route>
                   <Route path="/user-edit/:id" component={UserEdit}></Route>
+                  <Route path="/chat" component={Chat}></Route>
+                  <Route path="/login/:id" component={Login}></Route>
                 </Switch>
               </div>
             </Col>

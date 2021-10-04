@@ -20,55 +20,27 @@ router.route('/create-relation').post((req, res, next) => {
     })
 })
 
-//read user
-router.route('/').get((req, res) => {
-    relationSchema.find( (err, data) =>{
+// get friends focus column with_user_id
+router.route('/friends/:id').get((req, res, next) => {
+    relationSchema.find({ user_id: req.params.id }, (err, data) => {
         if (err) {
             return next(err);
         }else{
-            console.log(data);
+            console.log('not null', data);
             res.json(data);
         }
     })
 })
 
-// Get Single User
-router.route('/user-edit/:id').get((req, res) => {
-    relationSchema.findById( req.params.id, (err, data)=>{
+// get friends focus column user_id
+router.route('/friendswith/:id').get((req, res, next) => {
+
+    relationSchema.find({ with_user_id: req.params.id }, (err, data) => {
         if (err) {
             return next(err);
         }else{
             console.log(data);
             res.json(data);
-        }
-    })
-})
-
-// update user
-router.route('/user-update/:id').put((req, res, next) => {
-    relationSchema.findByIdAndUpdate( req.params.id,  {
-        $set: req.body
-    }, (err, data) => {
-        if (err) {
-            return next(err);
-            console.log(err);
-        }else{
-            res.json(data);
-            console.log(data);
-        }
-    })
-})
-
-// delete user
-router.route('/user-delete/:id').delete((req, res, next) => {
-    relationSchema.findByIdAndRemove( req.params.id, (err, data) => {
-        if (err) {
-            return next(err);
-        }else{
-            console.log(data);
-            res.status(200).json({
-                msg:data
-            })
         }
     })
 })
